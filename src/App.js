@@ -1,26 +1,40 @@
 import React from 'react';
-import logo from './logo.svg';
+// import logo from './logo.svg';
 import './App.css';
+import { 
+    Route ,
+    Switch, 
+    // Link
+} from 'react-router-dom';
+
+//Component
+import Editor from './Editor';
+import CKEditor from './CKEditor';
+
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    return (
+        
+        <>
+            <Switch>
+                <Route exact path='/' component={Editor}></Route>
+                <Route exact path='/write' component={CKEditor}></Route>
+            </Switch>
+        </>
+    );
 }
 
+// const AppMain = () =>{
+//     return (
+//         <div className="App">
+//             <header className="App-header">
+//                 <img src={logo} className="App-logo" alt="logo" />
+//                 <p className='text-primary'>
+//                     Welcome to ShEditor
+//                 </p>
+//                 <Link to={'/write'}>write</Link>
+//             </header>
+//         </div>
+//     );
+// }
 export default App;
