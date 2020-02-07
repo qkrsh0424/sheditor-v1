@@ -8,17 +8,20 @@ import {
 } from 'react-router-dom';
 
 //Component
-import Editor from './Editor';
-import CKEditor from './CKEditor';
+import EditorV1 from './EditorV1';
+import EditorModifyV1 from './EditorModifyV1';
 
+//Error Page
+import ErrorPage404 from './ErrorPage';
 
 function App() {
     return (
         
         <>
             <Switch>
-                <Route exact path='/' component={Editor}></Route>
-                <Route exact path='/write' component={CKEditor}></Route>
+                <Route exact path='/write' component={EditorV1}></Route>
+                <Route exact path='/modify' component={EditorModifyV1}></Route>
+                <Route component={ErrorPage404} />
             </Switch>
         </>
     );

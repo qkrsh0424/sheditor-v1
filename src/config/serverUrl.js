@@ -1,3 +1,2 @@
-const serverUrl = `http://localhost:4000`;
-// const serverUrl = ``;
+const serverUrl = process.env.NODE_ENV==='production'?``:`http://localhost:4000`;
 export {serverUrl};
