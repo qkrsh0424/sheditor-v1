@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import {Link} from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 
+//URL
+import {mainUrl} from '../config/mainUrl';
 const Container=styled.div`
 padding: 120px 0;
 
@@ -48,9 +50,9 @@ class ErrorPageBody extends React.Component{
                         <p className="errorContent">페이지를 찾을수 없습니다</p>
                     </div>
                     <div className="bottom">
-                        <Link to='/' className="link">
+                        <a href={mainUrl} className="link">
                             상해봄으로 돌아가기 →
-                        </Link>
+                        </a>
                     </div>
                 </div>
             </Container>

@@ -81,7 +81,7 @@ export default function ImageSliderForm(props) {
             // style={window.innerWidth<='900'?{margin:'0'}:{margin:'0 10%'}}
             className={window.innerWidth<='900'?'':'container'}
         >
-            {console.log(imageList)}
+            {/* {console.log(imageList)} */}
             <ImageFigure>
                 <ImageEl
                     style={window.innerWidth<='900'?{height:'300px'}:{height:'600px'}}

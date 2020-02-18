@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, lazy } from 'react';
 //URL
 import {mainUrl} from '../config/mainUrl';
 //uuid
@@ -13,15 +13,22 @@ import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 
 //**Component
-import EditorBody from './EditorBody';
+// import EditorBody from './EditorBody';
 
-import PostPreviewDial from './PostPreviewDial';
-import PostSubmitDial from './PostSubmitDial';
+// import PostPreviewDial from './PostPreviewDial';
+// import PostSubmitDial from './PostSubmitDial';
 
 //*Image
-import ImageDetailDial from './ImageDetailDial';
-import ImageUploadLoading from './ImageUploadLoading';
-import ImageArrayRearrangeDial from './ImageArrayRearrangeDial';
+// import ImageDetailDial from './ImageDetailDial';
+// import ImageUploadLoading from './ImageUploadLoading';
+// import ImageArrayRearrangeDial from './ImageArrayRearrangeDial';
+
+const EditorBody = lazy(()=>import('./EditorBody'));
+const PostPreviewDial = lazy(()=>import('./PostPreviewDial'));
+const PostSubmitDial = lazy(()=>import('./PostSubmitDial'));
+const ImageDetailDial = lazy(()=>import('./ImageDetailDial'));
+const ImageUploadLoading = lazy(()=>import('./ImageUploadLoading'));
+const ImageArrayRearrangeDial = lazy(()=>import('./ImageArrayRearrangeDial'));
 
 
 const EditorMain = (props) => {
@@ -58,7 +65,7 @@ const EditorMain = (props) => {
     const [imageDetailDialOpen, setImageDetailDialOpen] = useState(false);
     const [selectedImage, setSelectedImage] = useState(null);   // @params {moduleId, imageData}
     const [imageArrayRearrangeDialOpen, setImageArrayRearrangeDialOpen] = useState(false);
-
+    const [uploadPercentage, setUploadPercentage] = useState(0);
 
     //submit 관련 state
     const [submitErrorSnackbarOpen, setSubmitErrorSnackbarOpen] = useState(false);
@@ -77,7 +84,7 @@ const EditorMain = (props) => {
     const getPath = () =>{
         editorApi.getInformationPath(queryValues.BomNo, queryValues.Category)
         .then(data=>{
-            console.log(data);
+            // console.log(data);
             if(data.message==='success'){
                 let shbNum = data.data.shb_num;
                 let shbName = data.data.shb_name;
@@ -157,7 +164,7 @@ const EditorMain = (props) => {
     // image 관련
     const handleUploadImage = async (moduleId, e) => {
         e.preventDefault();
-        console.log(moduleId);
+        // console.log(moduleId);
         setSelectedModuleId(moduleId);
         document.getElementById('image-file-input').click();
 
@@ -174,7 +181,7 @@ const EditorMain = (props) => {
                 formData.append(`file`, filedata);
             }
 
-            await editorApi.uploadImage2Oss(formData)
+            await editorApi.uploadImage2Oss(formData, handleSetUploadPercentage)
                 .then(data => {
                     if (data.message === 'successOne') {
                         onAddImage(data);
@@ -236,13 +243,13 @@ const EditorMain = (props) => {
     }
 
     const handleImageDetailDialOpen = (moduleId, imageData) => {
-        console.log(imageData);
+        // console.log(imageData);
         setImageDetailDialOpen(true);
         setSelectedImage({ moduleId: moduleId, imageData: imageData });
     }
 
     const handleImageDetailDialClose = (imageData, newSize, newAlign) => {
-        console.log(imageData, newSize, newAlign);
+        // console.log(imageData, newSize, newAlign);
         const originImg = [
 
         ]
@@ -335,6 +342,10 @@ const EditorMain = (props) => {
         );
     }
 
+    const handleSetUploadPercentage = (value) =>{
+        setUploadPercentage(value);
+    }
+
     //TextEditor classify
     const _handleEditorDialOpen = async (indexData) => {
         await setEditorDialOpen(true);
@@ -399,15 +410,15 @@ const EditorMain = (props) => {
     }
 
     const _handleSubmitAgree = async() =>{
-        console.log('postTitle : ', postTitle);
-        console.log('module : ', postModule);
-        console.log('commonFiles : ', commonFiles);
+        // console.log('postTitle : ', postTitle);
+        // console.log('module : ', postModule);
+        // console.log('commonFiles : ', commonFiles);
         await editorApi._Authentication(cookiesUSID)
         .then(data=>{
             if (data.message === 'connect success') {
                 editorApi.postWrtie2Server(cookiesUSID, postTitle, postModule, commonFiles, queryValues.BomNo, queryValues.Category, queryValues.Pr)
                 .then(data=>{
-                    console.log(data);
+                    // console.log(data);
                     if(data.message==='success'){
                         // process.env.NODE_ENV==='production' ? 
                         //     window.location.href=`http://www.shbom.com/postPage?BomNo=${data.postInfo.BomNo}&Category=${data.postInfo.Category}&Pr=${data.postInfo.Pr}&PostVal=${data.postInfo.postVal}`
@@ -470,7 +481,7 @@ const EditorMain = (props) => {
                 formData.append(`commonfile`, filedata);
             }
 
-            await editorApi.uploadFile2Oss(formData)
+            await editorApi.uploadFile2Oss(formData, handleSetUploadPercentage)
             .then(data=>{
                 if(data){
                     if(data.message==='successOne' || data.message==='successMultiple'){
@@ -503,7 +514,7 @@ const EditorMain = (props) => {
             {/* **
                 Main Body Component
             */}
-            {console.log(userNickname)}
+            {/* {console.log(userNickname)} */}
             <EditorBody
                 userNickname={userNickname}
                 postModule={postModule}
@@ -594,7 +605,7 @@ const EditorMain = (props) => {
             <ImageUploadLoading
                 //state
                 imageUploadLoading={imageUploadLoading}
-
+                uploadPercentage={uploadPercentage}
                 //controller
                 handleImageArrayRearrangeDialClose = {handleImageArrayRearrangeDialClose}
             />

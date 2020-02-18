@@ -8,11 +8,13 @@ const POST_WRITE_API = `${serverUrl}/api/shb/post/writepost/sheditor/v1`    //mu
 const AUTHORIZATION_KEY = 'Bearer ' + AuthKey    //must defined
 
 
-const uploadImage2Oss = async(formData) => {
+const uploadImage2Oss = async(formData, handleSetUploadPercentage) => {
     return await Axios.post(IMAGE_UPLOAD_API, formData, {
-        // onUploadProgress: progressEvent => {
-        //     console.log(Math.round((progressEvent.loaded / progressEvent.total) * 100))
-        // }
+        onUploadProgress: progressEvent => {
+            // console.log(Math.round((progressEvent.loaded / progressEvent.total) * 100))
+            let percentCompleted = Math.floor((progressEvent.loaded * 100)/progressEvent.total);
+            handleSetUploadPercentage(percentCompleted);
+        },
         headers: {
             Authorization: AUTHORIZATION_KEY
         }
@@ -23,11 +25,13 @@ const uploadImage2Oss = async(formData) => {
     })
 }
 
-const uploadFile2Oss = async(formData) =>{
+const uploadFile2Oss = async(formData,handleSetUploadPercentage) =>{
     return await Axios.post(FILE_UPLOAD_API, formData, {
-        // onUploadProgress: progressEvent => {
-        //     console.log(Math.round((progressEvent.loaded / progressEvent.total) * 100))
-        // }
+        onUploadProgress: progressEvent => {
+            // console.log(Math.round((progressEvent.loaded / progressEvent.total) * 100))
+            let percentCompleted = Math.floor((progressEvent.loaded * 100)/progressEvent.total);
+            handleSetUploadPercentage(percentCompleted);
+        },
         headers: {
             Authorization: 'Bearer ' + AuthKey
         }
@@ -68,7 +72,7 @@ const getInformationPath = async (BomNo,Category) =>{
 }
 
 const _Authentication = async (cookieSession) => {
-    console.log(cookieSession);
+    // console.log(cookieSession);
     return await Axios.post(`${serverUrl}/api/auth/authentication`, {
         usid: cookieSession
     }, {

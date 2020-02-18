@@ -54,21 +54,18 @@ const editorConfiguration = {
     ],
     toolbar: {
         items: [
-            'heading', 'bold', 'italic', 'underline', 'link', 'alignment','|','bulletedList', 'numberedList',
-            'blockQuote', '|',
-            'fontColor',
-            'fontSize',
-            'fontFamily',
-            'fontBackgroundColor',
-            'horizontalline'
+            'heading', 'bold', 'italic', 'underline', 'link', 'alignment','|',
+            'fontColor','fontSize','fontFamily','fontBackgroundColor','|',
+            'bulletedList', 'numberedList','blockQuote', 'horizontalline'
         ],
     },
 
     heading: {
         options: [
             { model: 'paragraph', title: '문단', class: 'ck-heading_paragraph' },
-            { model: 'heading1', view: 'h1', title: '헤드라인 1', class: 'ck-heading_heading1' },
-            { model: 'heading2', view: 'h2', title: '헤드라인 2', class: 'ck-heading_heading2' }
+            { model: 'heading1', view: 'h1', title: 'H1', class: 'ck-heading_heading1' },
+            { model: 'heading2', view: 'h2', title: 'H2', class: 'ck-heading_heading2' },
+            { model: 'heading3', view: 'h3', title: 'H3', class: 'ck-heading_heading3' }
         ]
     },
     language: 'ko',
@@ -78,9 +75,9 @@ const EditorContainer = styled.div`
     .ck-content{
         height:300px !important;
     }
-    // .ck-button__label{
-    //     width:auto !important;
-    // }
+    .ck-button__label{
+        width:3rem !important;
+    }
 `;
 
 const ApplicationButtonBox = styled.div`
@@ -117,7 +114,7 @@ const CKEditorBody = (props) => {
 
     // Editor Data Initialize handler
     const handleEditorInit = (editor) => {
-        console.log('init : ', editor);
+        // console.log('init : ', editor);
 
         setEditor(editor);
         if (selectedIndexData.editor) {
@@ -147,7 +144,7 @@ const CKEditorBody = (props) => {
                 </ApplicationButtonBox>
             </div>
 
-            {console.log('textfield selected : ', selectedIndexData)}
+            {/* {console.log('textfield selected : ', selectedIndexData)} */}
             <div>
                 <CKEditor
                     id='editor'

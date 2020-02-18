@@ -9,11 +9,16 @@ const POST_UPDATE_API = `${serverUrl}/api/shb/post/updatepost/sheditor/v1`    //
 const AUTHORIZATION_KEY = 'Bearer ' + AuthKey    //must defined
 
 
-const uploadImage2Oss = async(formData) => {
+const uploadImage2Oss = async(formData,handleSetUploadPercentage) => {
     return await Axios.post(IMAGE_UPLOAD_API, formData, {
         // onUploadProgress: progressEvent => {
         //     console.log(Math.round((progressEvent.loaded / progressEvent.total) * 100))
         // }
+        onUploadProgress: progressEvent => {
+            // console.log(Math.round((progressEvent.loaded / progressEvent.total) * 100))
+            let percentCompleted = Math.floor((progressEvent.loaded * 100)/progressEvent.total);
+            handleSetUploadPercentage(percentCompleted);
+        },
         headers: {
             Authorization: AUTHORIZATION_KEY
         }
@@ -24,11 +29,16 @@ const uploadImage2Oss = async(formData) => {
     })
 }
 
-const uploadFile2Oss = async(formData) =>{
+const uploadFile2Oss = async(formData,handleSetUploadPercentage) =>{
     return await Axios.post(FILE_UPLOAD_API, formData, {
         // onUploadProgress: progressEvent => {
         //     console.log(Math.round((progressEvent.loaded / progressEvent.total) * 100))
         // }
+        onUploadProgress: progressEvent => {
+            // console.log(Math.round((progressEvent.loaded / progressEvent.total) * 100))
+            let percentCompleted = Math.floor((progressEvent.loaded * 100)/progressEvent.total);
+            handleSetUploadPercentage(percentCompleted);
+        },
         headers: {
             Authorization: 'Bearer ' + AuthKey
         }
@@ -56,7 +66,7 @@ const postWrtie2Server = async(usid, postTitle, postData, commonFiles, BomNo, Ca
 }
 
 const postUpdate2Server = async(usid, postTitle, postData, commonFiles, BomNo, Category, Pr, PostVal, postMetaData) =>{
-    console.log(usid, postTitle, postData, commonFiles, BomNo, Category, Pr, PostVal);
+    // console.log(usid, postTitle, postData, commonFiles, BomNo, Category, Pr, PostVal);
     return await Axios.post(POST_UPDATE_API,{
         usid:usid,
         postTitle:postTitle,
@@ -89,7 +99,7 @@ const getInformationPath = async (BomNo,Category) =>{
 }
 
 const _Authentication = async (cookieSession) => {
-    console.log(cookieSession);
+    // console.log(cookieSession);
     return await Axios.post(`${serverUrl}/api/auth/authentication`, {
         usid: cookieSession
     }, {
@@ -103,7 +113,7 @@ const _Authentication = async (cookieSession) => {
 }
 
 const loadOriginPost = async (BomNo, Category, Pr, PostVal, cookiesUSID) =>{
-    console.log('modify',BomNo, Category, Pr, PostVal);
+    // console.log('modify',BomNo, Category, Pr, PostVal);
     return await Axios.get(`${serverUrl}/api/shb/post/getpost/sheditor/one`,{
         params:{
             PostVal:PostVal,

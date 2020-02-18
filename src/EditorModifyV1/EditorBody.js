@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect,lazy } from 'react';
 import styled from 'styled-components';
 
 //URL
@@ -16,9 +16,13 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 
 //**Component
-import UploadImageList from './UploadImageList';    //  각 Module별 이미지 리스트 View Component
+// import UploadImageList from './UploadImageList';    //  각 Module별 이미지 리스트 View Component
 import EditorTextField from './EditorTextField';    //  Editor의 View Component 텍스트 에디터는 모든 모듈이 공유.
-import FileUpload from './FileUpload';
+// import FileUpload from './FileUpload';
+
+const UploadImageList = lazy(()=>import('./UploadImageList'));
+// const EditorTextField = lazy(()=>import('./EditorTextField'));
+const FileUpload = lazy(()=>import('./FileUpload'));
 
 // Container Style Part
 const Container = styled.div`
@@ -47,12 +51,12 @@ const HeaderWrapper = styled.div`
 `;
 
 const BodyWrapper = styled.div`
-    border: 1px solid rgba(0,0,0,0.125);
-    border-radius: 0.25rem;
-    box-shadow: 0 0.125rem 0.25rem rgba(0,0,0,0.075) !important;
-    margin-top:8px;
-    margin-bottom:20px;
-    padding:15px;
+    // border: 1px solid rgba(0,0,0,0.125);
+    // border-radius: 0.25rem;
+    // box-shadow: 0 0.125rem 0.25rem rgba(0,0,0,0.075) !important;
+    // margin-top:8px;
+    // margin-bottom:20px;
+    // padding:15px;
 `;
 
 const FooterWrapper = styled.div`
@@ -237,8 +241,6 @@ const EditorBody = (props) => {
 
     return (
         <Container>
-            {console.log(postModule)}
-            {console.log('selected : ', selectedModule)}
 
             {/* 
                 **  Header Part

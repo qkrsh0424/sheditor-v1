@@ -1,4 +1,4 @@
-import React from 'react';
+import React ,{Suspense, lazy}from 'react';
 // import logo from './logo.svg';
 import './App.css';
 import { 
@@ -8,21 +8,27 @@ import {
 } from 'react-router-dom';
 
 //Component
-import EditorV1 from './EditorV1';
-import EditorModifyV1 from './EditorModifyV1';
+// import EditorV1 from './EditorV1';
+// import EditorModifyV1 from './EditorModifyV1';
+import PageLoading from './PageLoading';
 
+// import ErrorPage404 from './ErrorPage';
+
+const EditorV1 = lazy(()=>import('./EditorV1'));
+const EditorModifyV1 = lazy(()=>import('./EditorModifyV1'));
 //Error Page
-import ErrorPage404 from './ErrorPage';
-
+const ErrorPage404 = lazy(()=>import('./ErrorPage'));
 function App() {
     return (
         
         <>
-            <Switch>
-                <Route exact path='/write' component={EditorV1}></Route>
-                <Route exact path='/modify' component={EditorModifyV1}></Route>
-                <Route component={ErrorPage404} />
-            </Switch>
+            <Suspense fallback={<div><PageLoading/></div>}>
+                <Switch>
+                    <Route exact path='/write' component={EditorV1}></Route>
+                    <Route exact path='/modify' component={EditorModifyV1}></Route>
+                    <Route component={ErrorPage404} />
+                </Switch>
+            </Suspense>
         </>
     );
 }

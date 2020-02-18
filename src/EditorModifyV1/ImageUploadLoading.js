@@ -8,7 +8,8 @@ import Progress from '@material-ui/core/CircularProgress';
 const ImageUploadLoading = (props) => {
 
   const {
-    imageUploadLoading
+    imageUploadLoading,
+    uploadPercentage
   } = props;
     return (
       <div>
@@ -20,6 +21,9 @@ const ImageUploadLoading = (props) => {
           <DialogTitle id="responsive-dialog-title">{"업로드 중입니다. 잠시만 기다려주세요."}</DialogTitle>
           <DialogContent className='text-center'>
             <Progress />
+            <div>
+              {`${uploadPercentage}%`}
+            </div>
           </DialogContent>
           <DialogActions>
           </DialogActions>
