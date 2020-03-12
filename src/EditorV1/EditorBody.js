@@ -16,6 +16,7 @@ import Switch from '@material-ui/core/Switch';
 //**Component
 // import UploadImageList from './UploadImageList';    //  각 Module별 이미지 리스트 View Component
 import EditorTextField from './EditorTextField';    //  Editor의 View Component 텍스트 에디터는 모든 모듈이 공유.
+// const EditorTextField = lazy(()=>import('./EditorTextField'))
 // import FileUpload from './FileUpload';
 
 const UploadImageList = lazy(()=>import('./UploadImageList'));

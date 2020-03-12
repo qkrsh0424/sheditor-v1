@@ -33,6 +33,27 @@ import Bold from '@ckeditor/ckeditor5-basic-styles/src/bold';
 import Italic from '@ckeditor/ckeditor5-basic-styles/src/italic';
 import Underline from '@ckeditor/ckeditor5-basic-styles/src/underline';
 
+
+//Lazy version 
+// const CKEditor = React.lazy(()=>import('@ckeditor/ckeditor5-react'));
+// const ClassicEditor = React.lazy(()=>import('@ckeditor/ckeditor5-editor-classic/src/classiceditor'));
+// const Alignment = React.lazy(()=>import('@ckeditor/ckeditor5-alignment/src/alignment'));
+// const Essentials = React.lazy(()=>import('@ckeditor/ckeditor5-essentials/src/essentials'));
+// const Paragraph = React.lazy(()=>import('@ckeditor/ckeditor5-paragraph/src/paragraph'));
+// const Heading = React.lazy(()=>import('@ckeditor/ckeditor5-heading/src/heading'));
+// const FontColor = React.lazy(()=>import('@ckeditor/ckeditor5-font/src/fontcolor.js'));
+// const FontSize = React.lazy(()=>import('@ckeditor/ckeditor5-font/src/fontsize.js'));
+// const FontFamily = React.lazy(()=>import('@ckeditor/ckeditor5-font/src/fontfamily.js'));
+// const FontBackgroundColor = React.lazy(()=>import('@ckeditor/ckeditor5-font/src/fontbackgroundcolor.js'));
+// const BlockQuote = React.lazy(()=>import('@ckeditor/ckeditor5-block-quote/src/blockquote.js'));
+// const Link = React.lazy(()=>import('@ckeditor/ckeditor5-link/src/link.js'));
+// const List = React.lazy(()=>import('@ckeditor/ckeditor5-list/src/list.js'));
+// const PageBreak = React.lazy(()=>import('@ckeditor/ckeditor5-page-break/src/pagebreak.js'));
+// const HorizontalLine = React.lazy(()=>import('@ckeditor/ckeditor5-horizontal-line/src/horizontalline.js'));
+// //basic styles
+// const Bold = React.lazy(()=>import('@ckeditor/ckeditor5-basic-styles/src/bold'));
+// const Italic = React.lazy(()=>import('@ckeditor/ckeditor5-basic-styles/src/italic'));
+// const Underline = React.lazy(()=>import('@ckeditor/ckeditor5-basic-styles/src/underline'));
 // CKEditor plugins
 const editorConfiguration = {
     plugins: [
@@ -67,6 +88,19 @@ const editorConfiguration = {
             { model: 'heading2', view: 'h2', title: 'H2', class: 'ck-heading_heading2' },
             { model: 'heading3', view: 'h3', title: 'H3', class: 'ck-heading_heading3' }
         ]
+    },
+
+    link:{
+        decorators: {
+            isExternal: {
+                mode: 'automatic',
+                callback: url => url.startsWith( 'http://' ),
+            	attributes: {
+            		target: '_blank',
+            		rel: 'noopener noreferrer'
+            	}
+            },
+        }
     },
     language: 'ko',
 };
@@ -150,7 +184,7 @@ const CKEditorBody = (props) => {
                     id='editor'
                     editor={ClassicEditor}
                     data={editorData}
-                    config={editorConfiguration}
+                    // config={editorConfiguration}
                     onChange={handleEditorDataChange}
                 // onInit={handleEditorInit}
                 // onInit = {(editor)=>setEditor(editor)}

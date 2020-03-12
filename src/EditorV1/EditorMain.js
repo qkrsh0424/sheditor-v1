@@ -114,7 +114,7 @@ const EditorMain = (props) => {
                     boardCategoryPath
                 });
             }
-        })
+        })        
     }
 
     //** post title 관련 컨트롤러 */
@@ -180,29 +180,28 @@ const EditorMain = (props) => {
                 let filedata = e.target.files[i];
                 formData.append(`file`, filedata);
             }
-
             await editorApi.uploadImage2Oss(formData, handleSetUploadPercentage)
-                .then(data => {
-                    if (data.message === 'successOne') {
-                        onAddImage(data);
-                        setImageUploadLoading(false);
-                        // console.log(postModule);
-                    } else if (data.message === 'successMultiple') {
-                        onAddImage(data);
-                        setImageUploadLoading(false);
-
-                    } else if (data.message === 'failure') {
-                        setImageUploadLoading(false);
-                        alert('서버가 좋지 않습니다. code: (IU:1)');
-                    } else {
-                        setImageUploadLoading(false);
-                        alert('예상치 못한 오류가 발생했습니다. code: (IU:2)');
-                    }
-
-                }).catch(err => {
+            .then(data => {
+                if (data.message === 'successOne') {
+                    onAddImage(data);
                     setImageUploadLoading(false);
-                    alert('연결 시간이 초과 되었습니다. 네트워크를 다시 확인해 주십시오.');
-                })
+                    // console.log(postModule);
+                } else if (data.message === 'successMultiple') {
+                    onAddImage(data);
+                    setImageUploadLoading(false);
+
+                } else if (data.message === 'failure') {
+                    setImageUploadLoading(false);
+                    alert('서버가 좋지 않습니다. code: (IU:1)');
+                } else {
+                    setImageUploadLoading(false);
+                    alert('예상치 못한 오류가 발생했습니다. code: (IU:2)');
+                }
+
+            }).catch(err => {
+                setImageUploadLoading(false);
+                alert('연결 시간이 초과 되었습니다. 네트워크를 다시 확인해 주십시오.');
+            })
         }
     }
 
@@ -355,7 +354,7 @@ const EditorMain = (props) => {
 
     const _scrollMoveToComment = async () => {
         document.getElementById('TextEditorFieldFocus').scrollIntoView({
-            behavior: 'smooth',
+            // behavior: 'smooth',
             block: "center"
         });
 
@@ -445,7 +444,6 @@ const EditorMain = (props) => {
                 window.location.href=mainUrl;
             }
         })
-        
     }
 
     const editorChange = async (moduler, editor, editorData) => {
@@ -501,6 +499,7 @@ const EditorMain = (props) => {
                 }
                 
             })
+            
         }
     }
 

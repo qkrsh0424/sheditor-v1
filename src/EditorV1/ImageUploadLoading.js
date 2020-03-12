@@ -22,7 +22,7 @@ const ImageUploadLoading = (props) => {
           <DialogContent className='text-center'>
             <Progress />
             <div>
-              {`${uploadPercentage}%`}
+              {`${uploadPercentage===100?'불러오는 중입니다...':`${uploadPercentage}%`}`}
             </div>
             
           </DialogContent>

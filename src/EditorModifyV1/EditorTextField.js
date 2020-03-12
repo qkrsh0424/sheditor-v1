@@ -68,6 +68,18 @@ const editorConfiguration = {
             { model: 'heading3', view: 'h3', title: 'H3', class: 'ck-heading_heading3' }
         ]
     },
+    link:{
+        decorators: {
+            isExternal: {
+                mode: 'automatic',
+                callback: url => url.startsWith( 'http://' ),
+            	attributes: {
+            		target: '_blank',
+            		rel: 'noopener noreferrer'
+            	}
+            },
+        }
+    },
     language: 'ko',
 };
 

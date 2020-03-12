@@ -24,6 +24,7 @@ const useStyles = makeStyles(theme => ({
     },
     backdrop: {
       zIndex: theme.zIndex.drawer + 1,
+      background:'rgba(0,0,0,0.1)',
       color: '#ffffff',
     },
   }));
@@ -34,7 +35,7 @@ function PageLoading(props) {
         <div className={classes.root}>
             {/* <LoadingNav /> */}
             <LinearProgress />
-            <Backdrop className={classes.backdrop} open={'true'}>
+            <Backdrop className={classes.backdrop} open={true}>
                 <CircularProgress color="inherit" />
             </Backdrop>
             <DemoLoad/>
@@ -77,9 +78,5 @@ class DemoLoad extends React.Component{
         );
     }
 }
-
-PageLoading.propTypes = {
-    classes: PropTypes.object.isRequired,
-};
 
 export default (PageLoading);

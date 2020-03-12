@@ -1,4 +1,4 @@
-import React,{useState, useEffect} from 'react';
+import React,{useState, useEffect, lazy} from 'react';
 //URL
 import {mainUrl} from '../config/mainUrl';
 //cookie
@@ -10,7 +10,8 @@ import queryString from 'query-string';
 //api
 import * as editorApi from './EditorAPI';
 //Component
-import EditorMain from './EditorMain';
+// import EditorMain from './EditorMain';
+const EditorMain = lazy(()=>import('./EditorMain'));
 
 
 const Editor = (props) =>{

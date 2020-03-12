@@ -361,7 +361,7 @@ const EditorMain = (props) => {
 
     const _scrollMoveToComment = async () => {
         document.getElementById('TextEditorFieldFocus').scrollIntoView({
-            behavior: 'smooth',
+            // behavior: 'smooth',
             block: "center"
         });
 
