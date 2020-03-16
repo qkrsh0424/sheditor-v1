@@ -184,7 +184,7 @@ const CKEditorBody = (props) => {
                     id='editor'
                     editor={ClassicEditor}
                     data={editorData}
-                    // config={editorConfiguration}
+                    config={editorConfiguration}
                     onChange={handleEditorDataChange}
                 // onInit={handleEditorInit}
                 // onInit = {(editor)=>setEditor(editor)}

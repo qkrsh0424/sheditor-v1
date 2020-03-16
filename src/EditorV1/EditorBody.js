@@ -1,7 +1,7 @@
 import React, { useState, useEffect, lazy } from 'react';
 import styled from 'styled-components';
 //URL
-import {mainUrl} from '../config/mainUrl';
+import { mainUrl } from '../config/mainUrl';
 //Core
 import TextField from '@material-ui/core/TextField';
 import IconButton from '@material-ui/core/IconButton';
@@ -19,9 +19,10 @@ import EditorTextField from './EditorTextField';    //  Editor의 View Component
 // const EditorTextField = lazy(()=>import('./EditorTextField'))
 // import FileUpload from './FileUpload';
 
-const UploadImageList = lazy(()=>import('./UploadImageList'));
+const UploadVideoList = lazy(()=>import('./UploadVideoList'));
+const UploadImageList = lazy(() => import('./UploadImageList'));
 // const EditorTextField = lazy(()=>import('./EditorTextField'));
-const FileUpload = lazy(()=>import('./FileUpload'));
+const FileUpload = lazy(() => import('./FileUpload'));
 // Container Style Part
 const Container = styled.div`
 
@@ -136,6 +137,26 @@ const AddModulerButtonBox = styled.div`
     padding 8px;
 `;
 
+const UploadVideoBox = styled.div`
+    border:1px solid #f1f1f1;
+    border-radius:15px;
+    padding: 8px;
+    margin:8px;
+    
+    .uploadedImage{
+        width:88px;
+        height:88px;
+        border:1px solid #f1f1f1;
+        border-radius:15px;
+        margin:2px;
+        object-fit:cover;
+    }
+
+    .uploadedImage:hover{
+        border:1px solid blue;
+    }
+`;
+
 const UploadImageBox = styled.div`
 
     border:1px solid #f1f1f1;
@@ -216,6 +237,12 @@ const EditorBody = (props) => {
         addPostModule,
         deletePostModule,
 
+        //Video
+        handleUploadVideo,
+        onVideoUpload,
+        handleUploadThumbnail,
+        onThumbnailUpload,
+        handleDeleteVideo,
         //image
         handleUploadImage,
         onImageUpload,
@@ -248,7 +275,7 @@ const EditorBody = (props) => {
             <HeaderContainer className='container'>
                 <HeaderWrapper>
                     <InformationBox>
-                        
+
                         {/* <div>
                             작성지 : {pathData ? 
                                 process.env.NODE_ENV==='production'?
@@ -270,15 +297,15 @@ const EditorBody = (props) => {
                                 :''}
                         </div> */}
                         <div>
-                            작성지 : {pathData ? 
-                                    <span>
-                                        <a href={mainUrl} className='text-dark'>홈</a>
+                            작성지 : {pathData ?
+                                <span>
+                                    <a href={mainUrl} className='text-dark'>홈</a>
                                         >
                                         <a href={`${mainUrl}/${pathData.pagePath}`} className='text-success'>{pathData.shbName}</a>
                                         >
                                         <a href={`${mainUrl}/${pathData.boardCategoryPath}`} className='text-primary'>{pathData.shbItemName}</a>
-                                    </span>
-                                :''}
+                                </span>
+                                : ''}
                         </div>
                         <div>
                             글쓴이 : {userNickname ? userNickname : ''}
@@ -302,9 +329,9 @@ const EditorBody = (props) => {
                         />
                     </TitleBox>
                     <FileUpload
-                        commonFiles = {commonFiles}
-                        handleFileUploaded = {handleFileUploaded}
-                        handleFileDeleteIndex = {handleFileDeleteIndex}
+                        commonFiles={commonFiles}
+                        handleFileUploaded={handleFileUploaded}
+                        handleFileDeleteIndex={handleFileDeleteIndex}
                     />
                 </HeaderWrapper>
             </HeaderContainer>
@@ -331,6 +358,19 @@ const EditorBody = (props) => {
                                     <span className='text-primary'>{index + 1} </span>
                                     <span className='text-success'>Module number : {post.id}</span>
                                 </EditorBox>
+                                <UploadVideoBox>
+                                    <UploadVideoList
+                                        moduleId={post.id}
+                                        videoData={post.videoData}
+
+                                        handleUploadVideo={handleUploadVideo}
+                                        onVideoUpload={onVideoUpload}
+                                        handleUploadThumbnail={handleUploadThumbnail}
+                                        onThumbnailUpload={onThumbnailUpload}
+                                        handleDeleteVideo={handleDeleteVideo}
+                                        handleImageDetailDialOpen={handleImageDetailDialOpen}
+                                    />
+                                </UploadVideoBox>
                                 <UploadImageBox className='clearfix'>
                                     <Button type='button' color='primary' variant='outlined' onClick={() => handleImageArrayRearrangeDialOpen(post)}>
                                         순서 조정
@@ -340,7 +380,7 @@ const EditorBody = (props) => {
                                         control={
                                             <Switch
                                                 checked={post.imageSliderOn}
-                                                onChange={()=>handleImageSliderFormSet(post)}
+                                                onChange={() => handleImageSliderFormSet(post)}
                                                 value={post.imageSliderOn}
                                                 color="primary"
                                             />

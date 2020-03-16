@@ -21,6 +21,7 @@ import EditorTextField from './EditorTextField';    //  Editor의 View Component
 // import FileUpload from './FileUpload';
 
 const UploadImageList = lazy(()=>import('./UploadImageList'));
+const UploadVideoList = lazy(()=>import('./UploadVideoList'));
 // const EditorTextField = lazy(()=>import('./EditorTextField'));
 const FileUpload = lazy(()=>import('./FileUpload'));
 
@@ -193,6 +194,26 @@ const AddModulerButton = styled(IconButton)`
     margin:0 4px !important;
 `;
 
+const UploadVideoBox = styled.div`
+    border:1px solid #f1f1f1;
+    border-radius:15px;
+    padding: 8px;
+    margin:8px;
+    
+    .uploadedImage{
+        width:88px;
+        height:88px;
+        border:1px solid #f1f1f1;
+        border-radius:15px;
+        margin:2px;
+        object-fit:cover;
+    }
+
+    .uploadedImage:hover{
+        border:1px solid blue;
+    }
+`;
+
 const PreviewButton = styled(Button)`
     
     font-size:15px !important;
@@ -217,6 +238,13 @@ const EditorBody = (props) => {
         handlePostTitleChange,
         addPostModule,
         deletePostModule,
+
+        //Video
+        handleUploadVideo,
+        onVideoUpload,
+        handleUploadThumbnail,
+        onThumbnailUpload,
+        handleDeleteVideo,
 
         //image
         handleUploadImage,
@@ -331,6 +359,19 @@ const EditorBody = (props) => {
                                     <span className='text-primary'>{index + 1} </span>
                                     <span className='text-success'>Module number : {post.id}</span>
                                 </EditorBox>
+                                <UploadVideoBox>
+                                    <UploadVideoList
+                                        moduleId={post.id}
+                                        videoData={post.videoData}
+
+                                        handleUploadVideo={handleUploadVideo}
+                                        onVideoUpload={onVideoUpload}
+                                        handleUploadThumbnail={handleUploadThumbnail}
+                                        onThumbnailUpload={onThumbnailUpload}
+                                        handleDeleteVideo={handleDeleteVideo}
+                                        handleImageDetailDialOpen={handleImageDetailDialOpen}
+                                    />
+                                </UploadVideoBox>
                                 <UploadImageBox className='clearfix'>
                                     <Button type='button' color='primary' variant='outlined' onClick={() => handleImageArrayRearrangeDialOpen(post)}>
                                         순서 조정

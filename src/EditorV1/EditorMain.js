@@ -48,6 +48,13 @@ const EditorMain = (props) => {
             editorData: '',
             imageList: [],
             imageSliderOn:false,
+            videoData:null
+            // videoData:{
+            //     videoId:uuidv4(),
+            //     videoUrl:`https://synabrodemo.oss-ap-southeast-1.aliyuncs.com/videoFiles/1584279548534media1.mp4`,
+            //     type:'video/mp4',
+            //     videoThumbnail:null
+            // }
         }
     ]);
 
@@ -131,6 +138,7 @@ const EditorMain = (props) => {
                 editorData: '',
                 imageList: [],
                 imageSliderOn:false,
+                videoData:null
             }
         ]
         let newVal = null;
@@ -159,6 +167,141 @@ const EditorMain = (props) => {
 
     const deletePostModule = (moduleId) => {
         setPostModule(postModule.filter(data => data.id !== moduleId));
+    }
+
+    // video 관련
+    const handleUploadVideo = async (moduleId, e) =>{
+        e.preventDefault();
+        // console.log(moduleId);
+        setSelectedModuleId(moduleId);
+        document.getElementById('video-file-input').click();
+    }
+
+    const onVideoUpload = async (e)=>{
+        if (e.target.files.length !== 0) {
+            setImageUploadLoading(true);
+            let filesize = e.target.files.length;
+            const formData = new FormData();
+
+            for (let i = 0; i < filesize; i++) {
+                let filedata = e.target.files[i];
+                formData.append(`file`, filedata);
+            }
+            await editorApi.uploadVideo2Oss(formData, handleSetUploadPercentage)
+            .then(data => {
+                console.log(data);
+                if (data.message === 'success') {
+                    onAddVideo(data);
+                    setImageUploadLoading(false);
+                    // console.log(postModule);
+                } else if (data.message === 'successMultiple') {
+                    onAddVideo(data);
+                    setImageUploadLoading(false);
+
+                } else if (data.message === 'failure') {
+                    setImageUploadLoading(false);
+                    alert('서버가 좋지 않습니다. code: (IU:1)');
+                } else {
+                    setImageUploadLoading(false);
+                    alert('예상치 못한 오류가 발생했습니다. code: (IU:2)');
+                }
+
+            }).catch(err => {
+                setImageUploadLoading(false);
+                alert('연결 시간이 초과 되었습니다. 네트워크를 다시 확인해 주십시오.');
+            })
+        }
+    }
+    
+
+    const onAddVideo = async(data)=>{
+        document.getElementById('video-file-input').value = '';
+        const originData = [...postModule];
+        const videoData = [];
+
+        videoData.push({videoId:uuidv1(), videoUrl:data.url, type:data.type});
+
+        for (let i = 0; i < originData.length; i++) {
+            if (originData[i].id === selectedModuleId) {
+                setPostModule(
+                    [...postModule], 
+                    postModule[i].videoData=videoData[0]
+                );
+            }
+        }
+    }
+
+    const handleDeleteVideo = async(moduleId, e)=>{
+        console.log(moduleId)
+        const originData = [...postModule];
+        for (let i = 0; i < originData.length; i++) {
+            if (originData[i].id === moduleId) {
+                setPostModule(
+                    [...postModule], 
+                    postModule[i].videoData=null
+                );
+            }
+        }
+    }
+
+    const handleUploadThumbnail = async (moduleId, e) =>{
+        e.preventDefault();
+        // console.log(moduleId);
+        setSelectedModuleId(moduleId);
+        document.getElementById('thumbnail-file-input').click();
+    }
+
+    const onThumbnailUpload = async(e)=>{
+        if (e.target.files.length !== 0) {
+            setImageUploadLoading(true);
+            let filesize = e.target.files.length;
+            const formData = new FormData();
+
+            for (let i = 0; i < filesize; i++) {
+                let filedata = e.target.files[i];
+                formData.append(`file`, filedata);
+            }
+            await editorApi.uploadVideoThumbnail2Oss(formData, handleSetUploadPercentage)
+            .then(data => {
+                console.log(data);
+                if (data.message === 'success') {
+                    onAddThumbnail(data);
+                    setImageUploadLoading(false);
+                    // console.log(postModule);
+                } else if (data.message === 'successMultiple') {
+                    onAddThumbnail(data);
+                    setImageUploadLoading(false);
+
+                } else if (data.message === 'failure') {
+                    setImageUploadLoading(false);
+                    alert('서버가 좋지 않습니다. code: (IU:1)');
+                } else {
+                    setImageUploadLoading(false);
+                    alert('예상치 못한 오류가 발생했습니다. code: (IU:2)');
+                }
+
+            }).catch(err => {
+                setImageUploadLoading(false);
+                alert('연결 시간이 초과 되었습니다. 네트워크를 다시 확인해 주십시오.');
+            })
+        }
+    }
+
+    const onAddThumbnail = async(data)=>{
+        document.getElementById('thumbnail-file-input').value = '';
+        const originData = [...postModule];
+
+        for (let i = 0; i < originData.length; i++) {
+            if (originData[i].id === selectedModuleId) {
+                setPostModule(
+                    [...postModule], 
+                    postModule[i].videoData={
+                        ...postModule[i].videoData,
+                        videoThumbnail:data.url
+                    }
+                );
+            }
+        }
     }
 
     // image 관련
@@ -215,16 +358,16 @@ const EditorMain = (props) => {
             imgData.push({
                 imgId: uuidv4(),
                 imgUrl: imgUrl.url,
-                imgSize: '100%',
-                align: 'justify'
+                imgSize: '75%',
+                align: 'center'
             })
         } else {
             for (let i = 0; i < imgUrl.url.length; i++) {
                 imgData.push({
                     imgId: uuidv4(),
                     imgUrl: imgUrl.url[i],
-                    imgSize: '100%',
-                    align: 'justify'
+                    imgSize: '75%',
+                    align: 'center'
                 })
             }
         }
@@ -529,6 +672,13 @@ const EditorMain = (props) => {
                 // post Module controller
                 addPostModule={addPostModule}
                 deletePostModule={deletePostModule}
+
+                //Video controller
+                handleUploadVideo={handleUploadVideo}
+                onVideoUpload={onVideoUpload}
+                handleUploadThumbnail={handleUploadThumbnail}
+                onThumbnailUpload={onThumbnailUpload}
+                handleDeleteVideo={handleDeleteVideo}
 
                 //Image controller
                 handleUploadImage={handleUploadImage}

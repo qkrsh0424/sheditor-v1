@@ -95,6 +95,21 @@ export default function PostPreviewDial(props) {
                                 if (moduler.imageSliderOn) {
                                     return (
                                         <div>
+                                            {moduler.videoData&&
+                                                <div className='text-center'>
+                                                    <video 
+                                                        id="videoPlayer" 
+                                                        controls
+                                                        autoplay={false}
+                                                        width='80%'
+                                                        poster={moduler.videoData.videoThumbnail?moduler.videoData.videoThumbnail:`https://synabrodemo.oss-ap-southeast-1.aliyuncs.com/categoryIcons/android-icon-144x144.png`}
+                                                        controlsList="nodownload"
+                                                    >
+                                                        {/* <source src={`${serverUrl}/api/service/extend/video`} type="video/mp4"/> */}
+                                                        <source src={`${moduler.videoData.videoUrl}`} type={moduler.videoData.type}/>
+                                                    </video>
+                                                </div>
+                                            }
                                             {moduler.imageList[0] && 
                                                 <ImageSliderForm
                                                     imageList = {moduler.imageList}
@@ -108,6 +123,22 @@ export default function PostPreviewDial(props) {
                                 } else {
                                     return (
                                         <div>
+                                            {moduler.videoData&&
+                                                <div className='text-center'>
+                                                    <video 
+                                                        id="videoPlayer"
+                                                        controls
+                                                        autoplay={false}
+                                                        width='80%'
+                                                        poster={moduler.videoData.videoThumbnail?moduler.videoData.videoThumbnail:`https://synabrodemo.oss-ap-southeast-1.aliyuncs.com/categoryIcons/android-icon-144x144.png`}
+                                                        controlsList="nodownload"
+                                                    >
+                                                        {/* <source src={`${serverUrl}/api/service/extend/video`} type="video/mp4"/> */}
+                                                        <source src={`${moduler.videoData.videoUrl}`} type={moduler.videoData.type}/>
+                                                    </video>
+                                                </div>
+                                            }
+                                            
                                             {moduler.imageList ?
                                                 moduler.imageList.map(image => {
                                                     return (
