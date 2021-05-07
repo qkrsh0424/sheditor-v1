@@ -72,4 +72,3 @@ Commit test
 Today is working day
 
 Today is holyday
-Today is holyday
