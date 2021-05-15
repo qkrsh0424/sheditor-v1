@@ -70,5 +70,3 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/tr
 Commit test 
 
 Today is working day
-
-Today is holyday
